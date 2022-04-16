@@ -4,7 +4,6 @@ Feature: Criar Usuário
     Para poder manipular estas informações livremente
 
     Background: Base url 
-
             Given url baseUrl
             And path "users"
             * def random_string = 
@@ -55,32 +54,28 @@ Feature: Criar Usuário
             And match response contains { error: "User already exists." }
 
         Scenario: Cadastrar um novo usuário com email sem "@"	
-            And path "users"
             * def userInvalido = {name: "#(user.name)", email: "arfa.com"}
             And request userInvalido
             When method post
-            Then status 404
+            Then status 400
 
         Scenario: Cadastrar um novo usuário com email sem ".com"	
-            And path "users"
             * def userInvalido = {name: "#(user.name)", email: "rafa@email"}
             And request userInvalido
             When method post
-            Then status 404
+            Then status 400
 
         Scenario: Cadastrar um novo usuário com email com mais de 60 caracteres	
-            And path "users"
             * def userInvalido = {name: "#(user.name)", email: "asdfertyuiasdfertyuiasdfertyuiasdfertyuiasdfertyuiasdfertyui@gmail.com"}
             And request userInvalido
             When method post
-            Then status 404
+            Then status 400
 
         Scenario: Cadastrar um novo usuário com nome com mais de 100 caracteres	
-            And path "users"
             * def userInvalido = {name: "rafaelmourarafaelmourarafaelmourarafaelmourarafaelmourarafaelmourarafaelmourarafaelmourarafaelmourarafaelmoura", email: "rafa@gmail.com"}
             And request userInvalido
             When method post
-            Then status 404
+            Then status 400
 
 
 # java -jar karate.jar registrarUsuário.feature 

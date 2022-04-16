@@ -49,11 +49,47 @@ Feature: Atualizar um usuário
             And request userRepetido
             When method put
             Then status 422
-            And response message contains { error: "E-mail already ind use." }
+            And response message contains { error: "E-mail already in use." }
 
         Scenario: Atualizar usuário com Id inexistente
             And path 3fa85f64-5717-4562-b3fc-2c963f66afa8
-            When method get
+            When method put
+            Then status 404
+
+        Scenario: Atualizar um usuário sem colocar um email	
+            * def userInvalido = {name: "#(userUpdate.name)", email: ""}
+            And request userInvalido
+            When method put
+            Then status 404
+
+        Scenario: Atualizar um usuário sem colocar um email	
+            * def userInvalido = {name: "", email: "rafa@gmail.com"}
+            And request userInvalido
+            When method put
+            Then status 404
+
+         Scenario: Atualizar um usuário para um email sem "@"	
+            * def userInvalido = {name: "#(userUpdate.name)", email: "arfa.com"}
+            And request userInvalido
+            When method put
+            Then status 404
+
+        Scenario: Atualizar um usuário para um email sem ".com"	
+            * def userInvalido = {name: "#(userUpdate.name)", email: "rafa@email"}
+            And request userInvalido
+            When method put
+            Then status 404
+
+        Scenario: Atualizar um usuário para um email com mais de 60 caracteres	
+            * def userInvalido = {name: "#(userUpdate.name)", email: "asdfertyuiasdfertyuiasdfertyuiasdfertyuiasdfertyuiasdfertyui@gmail.com"}
+            And request userInvalido
+            When method put
+            Then status 404
+
+        Scenario: Atualizar um usuário para um nome com mais de 100 caracteres	
+            * def userInvalido = {name: "rafaelmourarafaelmourarafaelmourarafaelmourarafaelmourarafaelmourarafaelmourarafaelmourarafaelmourarafaelmoura", email: "rafa@gmail.com"}
+            And request userInvalido
+            When method put
             Then status 404
 
        
