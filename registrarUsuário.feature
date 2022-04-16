@@ -41,7 +41,11 @@ Feature: Criar Usuário
             * def userRepetido = {name: "#(user.name)", email: "#(user.email)"}
             When method post
             Then status 201
-            And match response contains { name: "#(user.name)", email: "#(user.email)" }	
+            And match response contains { name: "#(user.name)", email: "#(user.email)" }
+            * def idSalvo = response.id
+            * def usera = read("usera.json")
+            * print usera.id
+            
         
         #Cadastrar um novo usuário com email já cadastrado
             And path "users"
