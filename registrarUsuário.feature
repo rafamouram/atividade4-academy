@@ -53,6 +53,19 @@ Feature: Criar Usuário
             Then status 422
             And match response contains { error: "User already exists." }
 
+         Scenario: Cadastrar um novo usuário sem colocar um email	
+            * def userInvalido = {name: "#(user.name)", email: ""}
+            And request userInvalido
+            When method put
+            Then status 404
+
+        Scenario: Cadastrar um novo usuário sem colocar um nome	
+            * def userInvalido = {name: "", email: "rafa@gmail.com"}
+            And request userInvalido
+            When method put
+            Then status 404
+
+
         Scenario: Cadastrar um novo usuário com email sem "@"	
             * def userInvalido = {name: "#(user.name)", email: "arfa.com"}
             And request userInvalido

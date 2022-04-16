@@ -62,7 +62,7 @@ Feature: Atualizar um usuário
             When method put
             Then status 404
 
-        Scenario: Atualizar um usuário sem colocar um email	
+        Scenario: Atualizar um usuário sem colocar um nome	
             * def userInvalido = {name: "", email: "rafa@gmail.com"}
             And request userInvalido
             When method put
