@@ -11,3 +11,5 @@ Feature: Listar usuários cadastrados
         When method get
         Then status 200
         And match each response contains { id:'#string', name: '#string', email: '#string', createdAt: '#string', updatedAt: '#string' }
+
+#   java -jar karate.jar listarUsuáriosCadastrados.feature 

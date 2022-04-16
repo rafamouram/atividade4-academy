@@ -13,7 +13,9 @@ Feature: Deletar um usuario
             When method delete
             Then status 204
 
-        Scenario: Deletar usuário não cadastrado
-            And path 123456789
+        Scenario: Deletar usuário com Id inválido
+            And path 1
             When method delete
             Then status 400
+
+#   java -jar karate.jar deletarUsuário.feature 
