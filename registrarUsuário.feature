@@ -41,17 +41,20 @@ Feature: Criar Usuário
             When method post
             Then status 201
             And match response contains { name: "#(user.name)", email: "#(user.email)" }
-            * def idSalvo = response.id
-            * def usera = read("usera.json")
-            * print usera.id
-            
+            * def userId = response.id
         
-        #Cadastrar um novo usuário com email já cadastrado
+            #Cadastrar um novo usuário com email já cadastrado
             And path "users"
             And request userRepetido
             When method post
             Then status 422
             And match response contains { error: "User already exists." }
+
+            # Deletando usuário
+            And path "users"
+            And path userId
+            When method delete
+            Then status 204
 
          Scenario: Cadastrar um novo usuário sem colocar um email	
             * def userInvalido = {name: "#(user.name)", email: ""}

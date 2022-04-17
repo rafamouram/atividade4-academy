@@ -6,7 +6,21 @@ Feature: Atualizar um usuário
     Background: Base url 
             Given url baseUrl
             And path "users"
-            * def userId = "38a1b99f-71eb-4e79-8eea-5177e050c153"
+
+            #Cria usuário para ser atualizado
+            * def usera = read("usera.json")
+            And request usera
+             * def userName = usera.name
+            * def userEmail = usera.email	
+            * def user = {name: "#(userName)", email: "#(userEmail)"}
+            When method post
+            * def userId = response.id
+            And path "users"
+
+            # Deleta usuário
+            * configure afterScenario = function(){karate.call('deletaDepoisCenario.feature');}
+        
+            # Cria nome e email que serão utilizados para atualizar o usuário
             * def random_string = 
             """
                 function(s){
@@ -30,29 +44,44 @@ Feature: Atualizar um usuário
                 }
             """
             * def userUpdate = {name: "", email: ""}
-            * user.updatedName = randomName(5)
+            * userUpdate.name = randomName(5)
             * print userUpdate
             * def randomString = random_string(10)
-            * user.updatedEmail = randomString + "@gmail.com"
+            * userUpdate.email = randomString + "@gmail.com"
             * print userUpdate
 
         Scenario: Atualizar informações do usuário cadastrado
             And path userId
             And request userUpdate
-             * def userRepetido = {name: "#(user.name)", email: "#(user.email)"}
+            # * def userRepetido = {name: "#(userUpdate.name)", email: "#(userUpdate.email)"}
             When method put
             Then status 200
 
-        #Atualizar usuário com email já cadastrado
-            And path "users"
-            And path userId
+        Scenario: Atualizar usuário com email já cadastrado
+            #Cria usuário para ser atualizado
+            * def userRepetido = { name: "Rafa", email: "rafa@email.com"}
             And request userRepetido
+            When method post
+            * def userId2 = response.id
+            And path "users"
+            
+            # Atualiza usuário com email já cadastrado
+            And path userId2
+            And request usera
             When method put
             Then status 422
-            And response message contains { error: "E-mail already in use." }
+            And match response contains { error: "E-mail already in use." }
+
+            # Deletando usuário
+            And path "users"
+            And path userId2
+            When method delete
+            * print usera
+            Then status 204
 
         Scenario: Atualizar usuário com Id inexistente
-            And path 3fa85f64-5717-4562-b3fc-2c963f66afa8
+            And path "5c7b2cb9-6086-4c30-b5a7-cd64da76cec8"
+            And request userUpdate
             When method put
             Then status 404
 

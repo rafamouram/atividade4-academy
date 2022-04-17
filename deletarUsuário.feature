@@ -6,11 +6,16 @@ Feature: Deletar um usuario
     Background: Base url 
             Given url baseUrl
             And path "users"
-            * def usera = read("usera.json")
-            * def userId = usera.id
-
     
         Scenario: Deletar usuário cadastrado
+            # Criando usuário para ser deletado
+            * def usera = read("usera.json")
+            And request usera
+            When method post
+            * def userId = response.id
+
+            # Deletando usuário
+            And path "users"
             And path userId
             When method delete
             * print usera

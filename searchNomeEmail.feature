@@ -5,30 +5,38 @@ Feature: Pesquisar usuário
 
     Background: Base url 
             Given url baseUrl
-            And path "search"
-            * def userName = "rafamour"
-            * def userEmail = "rafamoua@email.com"	
-            * def user = {name: "#(userName)", email: "#(userEmail)"}
+            And path "users"
 
+            #Cria usuário para ser deletado
+            * def usera = read("usera.json")
+            And request usera
+             * def userName = usera.name
+            * def userEmail = usera.email	
+            * def user = {name: "#(userName)", email: "#(userEmail)"}
+            When method post
+            * def userId = response.id
+            And path "search"
+
+            # Deleta usuário
+            * configure afterScenario = function(){karate.call('deletaDepoisCenario.feature');}
         
-        Scenario: Consultar usuário cadastrado pelo nome
-            And path userName
+        Scenario: Consultar usuário cadastrado pelo nome 
+            And param value = userName
             When method get
             Then status 200
             And match each response contains { id:'#string', name: "#(userName)", email: '#string', createdAt: '#string', updatedAt: '#string' }
 
 
         Scenario: Consultar usuário cadastrado pelo e-mail
-            And path userEmail
+            And param value = userEmail
             When method get
             Then status 200
             And match each response contains { id:'#string', name: '#string', email: "#(userEmail)", createdAt: '#string', updatedAt: '#string' }
 
         Scenario: Consultar usuário não cadastrado
-            And path "io"
-            When method get
-            Then status 200
-            And match each response = []
+             And path "io"
+             When method get
+             Then status 404
 
 #   java -jar karate.jar searchNomeEmail.feature 
 
