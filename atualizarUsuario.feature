@@ -55,6 +55,7 @@ Feature: Atualizar um usuário
             And request userUpdate
             When method put
             Then status 200
+            And match response contains userUpdate
 
         Scenario: Atualizar usuário com email já cadastrado
             #Cria usuário para ser atualizado
