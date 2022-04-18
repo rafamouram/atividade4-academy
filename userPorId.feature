@@ -3,7 +3,7 @@ Feature: Pesquisar um usuário
     Desejo consultar os dados de um usuário
     Para visualizar as informações deste usuário	
 
-    Background: Base url 
+    Background: Base url  e Cria Usuário e Deleta usuário após cada cenário
             Given url baseUrl
             And path "users"
 

@@ -3,7 +3,7 @@ Feature: Atualizar um usuário
     Desejo atualizar as informações de determinado usuário
     Para ter o registro de suas informações atualizadas
 
-    Background: Base url 
+    Background: Base url e Cria Usuário para ser atualizado
             Given url baseUrl
             And path "users"
 
@@ -17,7 +17,7 @@ Feature: Atualizar um usuário
             * def userId = response.id
             And path "users"
 
-            # Deleta usuário
+            # Deleta usuário após a execução 
             * configure afterScenario = function(){karate.call('deletaDepoisCenario.feature');}
         
             # Cria nome e email que serão utilizados para atualizar o usuário
@@ -53,7 +53,6 @@ Feature: Atualizar um usuário
         Scenario: Atualizar informações do usuário cadastrado
             And path userId
             And request userUpdate
-            # * def userRepetido = {name: "#(userUpdate.name)", email: "#(userUpdate.email)"}
             When method put
             Then status 200
 

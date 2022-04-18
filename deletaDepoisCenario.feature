@@ -1,4 +1,5 @@
 @ignore
+# Feature para deletar o usuário após o cenário em outras funcionalidades
 Feature: Deletar um usuario
     
         Scenario: Deletar usuário cadastrado

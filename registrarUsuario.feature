@@ -3,9 +3,10 @@ Feature: Criar Usuário
     Desejo registrar informações de usuário
     Para poder manipular estas informações livremente
 
-    Background: Base url 
+    Background: Base url e Define usuário aleatório
             Given url baseUrl
             And path "users"
+            # Função para criar nome aleatório
             * def random_string = 
             """
                 function(s){
@@ -16,6 +17,7 @@ Feature: Criar Usuário
                         return text;
                 }
             """
+            # Função para criar email aleatório
             * def randomName = 
             """
                 function(s){
@@ -28,6 +30,7 @@ Feature: Criar Usuário
                         return text;
                 }
             """
+            # Cria usuário com nome e email aleatórios
             * def user = {name: "", email: ""}
             * user.name = randomName(5)
             * print user
@@ -35,22 +38,23 @@ Feature: Criar Usuário
             * user.email = randomString + "@gmail.com"
             * print user
 
-        Scenario: Cadastrar um novo usuário
+        Scenario: Cadastrar um novo usuário e Não cadastra usuário com email já cadastrado
             And request user
+            # Cria um usuário repetido, com mesmo nome e email do usuário criado anteriormente
             * def userRepetido = {name: "#(user.name)", email: "#(user.email)"}
             When method post
             Then status 201
             And match response contains { name: "#(user.name)", email: "#(user.email)" }
             * def userId = response.id
         
-            #Cadastrar um novo usuário com email já cadastrado
+            #Cadastra um novo usuário com email já cadastrado
             And path "users"
             And request userRepetido
             When method post
             Then status 422
             And match response contains { error: "User already exists." }
 
-            # Deletando usuário
+            # Deleta usuário criado anteriormente 
             And path "users"
             And path userId
             When method delete
