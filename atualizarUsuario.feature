@@ -63,9 +63,9 @@ Feature: Atualizar um usuário
             And request userRepetido
             When method post
             * def userId2 = response.id
-            And path "users"
             
             # Atualiza usuário com email já cadastrado
+            And path "users"
             And path userId2
             And request usera
             When method put
@@ -87,40 +87,46 @@ Feature: Atualizar um usuário
 
         Scenario: Atualizar um usuário sem colocar um email	
             * def userInvalido = {name: "#(userUpdate.name)", email: ""}
+            And path userId
             And request userInvalido
             When method put
-            Then status 404
+            Then status 400
 
         Scenario: Atualizar um usuário sem colocar um nome	
             * def userInvalido = {name: "", email: "rafa@gmail.com"}
+            And path userId
             And request userInvalido
             When method put
-            Then status 404
+            Then status 400
 
          Scenario: Atualizar um usuário para um email sem "@"	
             * def userInvalido = {name: "#(userUpdate.name)", email: "arfa.com"}
+            And path userId
             And request userInvalido
             When method put
-            Then status 404
+            Then status 400
 
         Scenario: Atualizar um usuário para um email sem ".com"	
             * def userInvalido = {name: "#(userUpdate.name)", email: "rafa@email"}
+            And path userId
             And request userInvalido
             When method put
-            Then status 404
+            Then status 400
 
         Scenario: Atualizar um usuário para um email com mais de 60 caracteres	
             * def userInvalido = {name: "#(userUpdate.name)", email: "asdfertyuiasdfertyuiasdfertyuiasdfertyuiasdfertyuiasdfertyui@gmail.com"}
+            And path userId
             And request userInvalido
             When method put
-            Then status 404
+            Then status 400
 
         Scenario: Atualizar um usuário para um nome com mais de 100 caracteres	
             * def userInvalido = {name: "rafaelmourarafaelmourarafaelmourarafaelmourarafaelmourarafaelmourarafaelmourarafaelmourarafaelmourarafaelmoura", email: "rafa@gmail.com"}
+            And path userId
             And request userInvalido
             When method put
-            Then status 404
+            Then status 400
 
        
 
-#   java -jar karate.jar atualizarUsuário.feature 
+#   java -jar karate.jar atualizarUsuario.feature 

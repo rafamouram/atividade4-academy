@@ -6,6 +6,19 @@ Feature: Listar usuários cadastrados
     Background: Base url 
        Given url baseUrl
        And path "users"
+       #Cria usuário para lista não estar vazia
+            * def usera = read("usera.json")
+            And request usera
+             * def userName = usera.name
+            * def userEmail = usera.email	
+            * def user = {name: "#(userName)", email: "#(userEmail)"}
+            When method post
+            * def userId = response.id
+            And path "search"
+
+            # Deleta usuário após cada cenário
+            * configure afterScenario = function(){karate.call('deletaDepoisCenario.feature');}
+        
 
      Scenario: Listar usuários cadastrados
         When method get
