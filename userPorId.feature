@@ -30,7 +30,7 @@ Feature: Pesquisar um usuário
             And match response contains { id:"#(userId)", name: '#string', email: '#string', createdAt: '#string', updatedAt: '#string' }
         
         Scenario: Pesquisar usuário por Id inexistente
-            And path "3fa85f64-5717-4562-b3fc-2c963f66afa8"
+            And path java.util.UUID.randomUUID()
             When method get
             Then status 404
 

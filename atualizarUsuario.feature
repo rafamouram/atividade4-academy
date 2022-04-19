@@ -82,7 +82,7 @@ Feature: Atualizar um usuário
             Then status 204
 
         Scenario: Atualizar usuário com Id inexistente
-            And path "5c7b2cb9-6086-4c30-b5a7-cd64da76cec8"
+            And path java.util.UUID.randomUUID()
             And request userUpdate
             When method put
             Then status 404
