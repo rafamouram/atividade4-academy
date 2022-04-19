@@ -4,39 +4,39 @@ Feature: Criar Usuário
     Para poder manipular estas informações livremente
 
     Background: Base url e Define usuário aleatório
-            Given url baseUrl
-            And path "users"
-            # Função para criar nome aleatório
-            * def random_string = 
-            """
-                function(s){
-                    var text = "";
-                    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-                    for( var i=0; i < s; i++ )
-                        text += possible.charAt(Math.floor(Math.random() * possible.length));
-                        return text;
-                }
-            """
-            # Função para criar email aleatório
-            * def randomName = 
-            """
-                function(s){
-                    var text = "";
-                    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-                    var possible2 = "abcdefghijklmnopqrstuvwxyz";
+        Given url baseUrl
+        And path "users"
+        # Função para criar nome aleatório
+        * def random_string = 
+        """
+            function(s){
+                var text = "";
+                var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+                for( var i=0; i < s; i++ )
                     text += possible.charAt(Math.floor(Math.random() * possible.length));
-                    for( var i=1; i < s; i++ )
-                        text += possible2.charAt(Math.floor(Math.random() * possible.length));
-                        return text;
-                }
-            """
-            # Cria usuário com nome e email aleatórios
-            * def user = {name: "", email: ""}
-            * user.name = randomName(5)
-            * print user
-            * def randomString = random_string(10)
-            * user.email = randomString + "@gmail.com"
-            * print user
+                    return text;
+            }
+        """
+        # Função para criar email aleatório
+        * def randomName = 
+        """
+            function(s){
+                var text = "";
+                var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                var possible2 = "abcdefghijklmnopqrstuvwxyz";
+                text += possible.charAt(Math.floor(Math.random() * possible.length));
+                for( var i=1; i < s; i++ )
+                    text += possible2.charAt(Math.floor(Math.random() * possible.length));
+                    return text;
+            }
+        """
+        # Cria usuário com nome e email aleatórios
+        * def user = {name: "", email: ""}
+        * user.name = randomName(5)
+        * print user
+        * def randomString = random_string(10)
+        * user.email = randomString + "@gmail.com"
+        * print user
 
         Scenario: Cadastrar um novo usuário e Não cadastra usuário com email já cadastrado
             And request user

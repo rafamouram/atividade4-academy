@@ -4,21 +4,23 @@ Feature: Pesquisar usuário
     Para ser capaz de encontrar um usuário cadastrado facilmente
 
     Background: Base url  e Cria Usuário e Deleta usuário após cada cenário
-            Given url baseUrl
-            And path "users"
+        Given url baseUrl
+        And path "users"
 
-            #Cria usuário para ser deletado
-            * def usera = read("usera.json")
-            And request usera
-             * def userName = usera.name
-            * def userEmail = usera.email	
-            * def user = {name: "#(userName)", email: "#(userEmail)"}
-            When method post
-            * def userId = response.id
-            And path "search"
+        #Cria usuário para ser deletado
+        * def userNameAleatorio = "Rafael" + java.util.UUID.randomUUID()
+        * def userEmailAleatorio = java.util.UUID.randomUUID() + "@gmail.com"
+        * def usera = read("usera.json")
+        And request usera
+            * def userName = usera.name
+        * def userEmail = usera.email	
+        * def user = {name: "#(userName)", email: "#(userEmail)"}
+        When method post
+        * def userId = response.id
+        And path "search"
 
-            # Deleta usuário após cada cenário
-            * configure afterScenario = function(){karate.call('deletaDepoisCenario.feature');}
+        # Deleta usuário após cada cenário
+        * configure afterScenario = function(){karate.call('deletaDepoisCenario.feature');}
         
         Scenario: Consultar usuário cadastrado pelo nome 
             And param value = userName

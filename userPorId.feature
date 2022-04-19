@@ -8,6 +8,8 @@ Feature: Pesquisar um usuário
             And path "users"
 
             #Cria usuário
+            * def userNameAleatorio = "Rafael" + java.util.UUID.randomUUID()
+            * def userEmailAleatorio = java.util.UUID.randomUUID() + "@gmail.com"
             * def usera = read("usera.json")
             And request usera
              * def userName = usera.name

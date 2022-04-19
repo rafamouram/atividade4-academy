@@ -4,51 +4,53 @@ Feature: Atualizar um usuário
     Para ter o registro de suas informações atualizadas
 
     Background: Base url e Cria Usuário para ser atualizado
-            Given url baseUrl
-            And path "users"
+        Given url baseUrl
+        And path "users"
 
-            #Cria usuário para ser atualizado
-            * def usera = read("usera.json")
-            And request usera
-             * def userName = usera.name
-            * def userEmail = usera.email	
-            * def user = {name: "#(userName)", email: "#(userEmail)"}
-            When method post
-            * def userId = response.id
-            And path "users"
+        #Cria usuário para ser atualizado
+        * def userNameAleatorio = "Rafael" + java.util.UUID.randomUUID()
+        * def userEmailAleatorio = java.util.UUID.randomUUID() + "@gmail.com"
+        * def usera = read("usera.json")
+        And request usera
+        * def userName = usera.name
+        * def userEmail = usera.email	
+        * def user = {name: "#(userName)", email: "#(userEmail)"}
+        When method post
+        * def userId = response.id
+        And path "users"
 
-            # Deleta usuário após a execução 
-            * configure afterScenario = function(){karate.call('deletaDepoisCenario.feature');}
-        
-            # Cria nome e email que serão utilizados para atualizar o usuário
-            * def random_string = 
-            """
-                function(s){
-                    var text = "";
-                    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-                    for( var i=0; i < s; i++ )
-                        text += possible.charAt(Math.floor(Math.random() * possible.length));
-                        return text;
-                }
-            """
-            * def randomName = 
-            """
-                function(s){
-                    var text = "";
-                    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-                    var possible2 = "abcdefghijklmnopqrstuvwxyz";
+        # Deleta usuário após a execução 
+        * configure afterScenario = function(){karate.call('deletaDepoisCenario.feature');}
+    
+        # Cria nome e email que serão utilizados para atualizar o usuário
+        * def random_string = 
+        """
+            function(s){
+                var text = "";
+                var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+                for( var i=0; i < s; i++ )
                     text += possible.charAt(Math.floor(Math.random() * possible.length));
-                    for( var i=1; i < s; i++ )
-                        text += possible2.charAt(Math.floor(Math.random() * possible.length));
-                        return text;
-                }
-            """
-            * def userUpdate = {name: "", email: ""}
-            * userUpdate.name = randomName(5)
-            * print userUpdate
-            * def randomString = random_string(10)
-            * userUpdate.email = randomString + "@gmail.com"
-            * print userUpdate
+                    return text;
+            }
+        """
+        * def randomName = 
+        """
+            function(s){
+                var text = "";
+                var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                var possible2 = "abcdefghijklmnopqrstuvwxyz";
+                text += possible.charAt(Math.floor(Math.random() * possible.length));
+                for( var i=1; i < s; i++ )
+                    text += possible2.charAt(Math.floor(Math.random() * possible.length));
+                    return text;
+            }
+        """
+        * def userUpdate = {name: "", email: ""}
+        * userUpdate.name = randomName(5)
+        * print userUpdate
+        * def randomString = random_string(10)
+        * userUpdate.email = randomString + "@gmail.com"
+        * print userUpdate
 
         Scenario: Atualizar informações do usuário cadastrado
             And path userId

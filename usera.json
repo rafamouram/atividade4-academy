@@ -1,4 +1,4 @@
 {
-    "name": "Exemplo",
-    "email": "exemplo@email.com"
+    "name": "#(userNameAleatorio)",
+    "email": "#(userEmailAleatorio)"
 }

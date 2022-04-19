@@ -4,11 +4,13 @@ Feature: Deletar um usuario
     Para que suas informações não estejam mais registradas
 
     Background: Base url 
-            Given url baseUrl
-            And path "users"
+        Given url baseUrl
+        And path "users"
     
         Scenario: Deletar usuário cadastrado
             # Criando usuário para ser deletado
+            * def userNameAleatorio = "Rafael" + java.util.UUID.randomUUID()
+            * def userEmailAleatorio = java.util.UUID.randomUUID() + "@gmail.com"
             * def usera = read("usera.json")
             And request usera
             When method post
