@@ -4,9 +4,10 @@ Feature: Pesquisar um usuário
     Para visualizar as informações deste usuário	
 
     Background: Base url  e Cria Usuário e Deleta usuário após cada cenário
-            Given url baseUrl
-            And path "users"
+        Given url baseUrl
+        And path "users"
 
+        Scenario: Pesquisar um usuário por Id  
             #Cria usuário
             * def userNameAleatorio = "Rafael" + java.util.UUID.randomUUID()
             * def userEmailAleatorio = java.util.UUID.randomUUID() + "@gmail.com"
@@ -18,17 +19,16 @@ Feature: Pesquisar um usuário
             When method post
             * def userId = response.id
             And path "users"
-
-            # Deleta usuário
-            * configure afterScenario = function(){karate.call('deletaDepoisCenario.feature');}
         
-        Scenario: Pesquisar um usuário por Id
-            # Pesquisando usuário
+            # Pesquisa usuário por Id
             And path userId
             When method get
             Then status 200
             And match response contains { id:"#(userId)", name: '#string', email: '#string', createdAt: '#string', updatedAt: '#string' }
         
+            # Deleta usuário
+            * configure afterScenario = function(){karate.call('deletaDepoisCenario.feature');}
+
         Scenario: Pesquisar usuário por Id inexistente
             And path java.util.UUID.randomUUID()
             When method get

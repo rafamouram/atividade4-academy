@@ -3,7 +3,7 @@ Feature: Atualizar um usuário
     Desejo atualizar as informações de determinado usuário
     Para ter o registro de suas informações atualizadas
 
-    Background: Base url e Cria Usuário para ser atualizado
+    Background: Base url e Cria Usuário aleatório para ser atualizado e Deleta usuário após cenário
         Given url baseUrl
         And path "users"
 

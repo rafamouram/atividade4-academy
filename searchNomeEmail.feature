@@ -3,7 +3,7 @@ Feature: Pesquisar usuário
     Desejo pesquisar usuário por nome ou e-mail
     Para ser capaz de encontrar um usuário cadastrado facilmente
 
-    Background: Base url  e Cria Usuário e Deleta usuário após cada cenário
+    Background: Base url e Cria Usuário e Deleta usuário após cada cenário
         Given url baseUrl
         And path "users"
 
